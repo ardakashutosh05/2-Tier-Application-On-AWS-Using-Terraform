@@ -12,6 +12,7 @@ module "vpc" {
 }
 
 module "nat" {
+    source = "../modules/nat"
     pub_sub_1a_id = module.vpc.pub_sub_1a_id
     igw_id = module.vpc.igw_id
     pub_sub_2b_id = module.vpc.pub_sub_2b_id
@@ -22,4 +23,4 @@ module "nat" {
     pri_sub_6b_id = module.vpc.pri_sub_6b_id
 }
 
-
+#### https://www.youtube.com/watch?v=s8q5B6DLH7s&t=1593s
