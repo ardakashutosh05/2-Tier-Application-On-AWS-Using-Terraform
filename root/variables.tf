@@ -11,3 +11,6 @@ variable db_username {}
 variable db_password {}
 variable certificate_domain_name {}
 variable additional_domain_name {}
+variable deploy_alb { default = false }
+variable deploy_key_pair { default = false }
+variable deploy_asg { default = false }

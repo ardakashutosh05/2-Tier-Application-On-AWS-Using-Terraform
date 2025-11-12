@@ -31,11 +31,13 @@ module "security-group" {
 
 # creating Key for instances
 module "key" {
+  count  = var.deploy_key_pair ? 1 : 0
   source = "../modules/key"
 }
 
 # Creating Application Load balancer
 module "alb" {
+  count          = var.deploy_alb ? 1 : 0
   source         = "../modules/alb"
   project_name   = module.vpc.project_name
   alb_sg_id      = module.security-group.alb_sg_id
@@ -45,13 +47,14 @@ module "alb" {
 }
 
 module "asg" {
+  count          = var.deploy_asg ? 1 : 0
   source         = "../modules/asg"
   project_name   = module.vpc.project_name
-  key_name       = module.key.key_name
+  key_name       = var.deploy_key_pair ? module.key[0].key_name : ""
   client_sg_id   = module.security-group.client_sg_id
   pri_sub_3a_id = module.vpc.pri_sub_3a_id
   pri_sub_4b_id = module.vpc.pri_sub_4b_id
-  tg_arn         = module.alb.tg_arn
+  tg_arn         = var.deploy_alb ? module.alb[0].tg_arn : ""
 
 }
 
@@ -69,9 +72,11 @@ module "rds" {
 
 # create cloudfront distribution 
 module "cloudfront" {
+  count = var.certificate_domain_name != "" ? 1 : 0
+  
   source = "../modules/cloudfront"
   certificate_domain_name = var.certificate_domain_name
-  alb_domain_name = module.alb.alb_dns_name
+  alb_domain_name = var.deploy_alb ? module.alb[0].alb_dns_name : "example.com"
   additional_domain_name = var.additional_domain_name
   project_name = module.vpc.project_name
 }
@@ -80,8 +85,10 @@ module "cloudfront" {
 # Add record in route 53 hosted zone
 
 module "route53" {
+  count = var.certificate_domain_name != "" ? 1 : 0
+  
   source = "../modules/route53"
-  cloudfront_domain_name = module.cloudfront.cloudfront_domain_name
-  cloudfront_hosted_zone_id = module.cloudfront.cloudfront_hosted_zone_id
+  cloudfront_domain_name = module.cloudfront[0].cloudfront_domain_name
+  cloudfront_hosted_zone_id = module.cloudfront[0].cloudfront_hosted_zone_id
 
 }
