@@ -22,3 +22,4 @@ module "nat" {
     pri_sub_6b_id = module.vpc.pri_sub_6b_id
 }
 
+
