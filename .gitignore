@@ -1,19 +1,111 @@
 
+
+# Terraform state files (NEVER COMMIT THESE!)
 /**/*.tfstate*
 /**/.terraform
-
-../modules/key/client_key
-../modules/key/client_key.pub
-# Local .terraform directories
 **/.terraform/*
 .terraform/*
+*.tfstate
+/**/*.tfstate*
+*.tfstate.*
+
+# Terraform lock and variable files (may contain sensitive data)
 *.hcl
 *.lock*
 ../.terraform/*
 terraform.*
 *.tfvars*
+!*.tfvars.example
 
-# .tfstate files
-*.tfstate
-/**/*.tfstate*
-*.tfstate.*
+# SSH and private keys (CRITICAL - NEVER COMMIT!)
+../modules/key/client_key
+../modules/key/client_key.pub
+*.pem
+*.pub
+*.ppk
+id_rsa
+id_rsa.pub
+id_dsa
+id_dsa.pub
+id_ecdsa
+id_ecdsa.pub
+id_ed25519
+id_ed25519.pub
+
+# AWS credentials (CRITICAL - NEVER COMMIT!)
+~/.aws/credentials
+~/.aws/config
+.aws/credentials
+.aws/config
+aws_credentials
+aws_access_key_id
+aws_secret_access_key
+
+# Local development files
+.DS_Store
+.vscode/
+*.swp
+*.swo
+*~
+.idea/
+*.iml
+
+# Environment files (may contain secrets)
+.env
+.env.local
+.env.*.local
+.env.production.local
+.env.development.local
+
+# Backup and temporary files
+*.backup
+*.bak
+*.tmp
+*.temp
+*.log
+*~
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# OS specific files
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Credential files (various formats)
+*credentials*
+*secret*
+*password*
+*token*
+*key*
+!modules/key/
+!modules/key/README.md
+
+# Docker files with credentials
+docker-compose.override.yml
+.dockercfg
+.docker/
+
+# Helm/Kubernetes secrets
+secrets/
+*-secret.yaml
+*-secrets.yaml
+
+# Any file with sensitive patterns
+**/sensitive*
+**/private*
+**/confidential*
+
+# Exclude actual Terraform files we want to keep
+!*.tf
+!*.hcl.example
+!README*.md
+!*.md
+!*.example
